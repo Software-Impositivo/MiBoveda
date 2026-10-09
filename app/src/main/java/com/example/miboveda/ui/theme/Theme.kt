@@ -33,11 +33,22 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+private val MiBovedaLight = lightColorScheme(
+    primary = titlesGreen,
+    onPrimary = labelsGreen,
+    background = mainBglight,
+    secondaryContainer = bgField,
+    onSecondaryContainer = hintField,
+    outline = borderField,
+    onSurface = white,
+    outlineVariant = borderContainers
+)
+
 @Composable
 fun MiBovedaTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -47,12 +58,12 @@ fun MiBovedaTheme(
         }
 
         darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        else -> MiBovedaLight
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = MiBovedaTypography,
         content = content
     )
 }

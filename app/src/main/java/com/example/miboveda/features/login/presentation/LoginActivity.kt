@@ -1,4 +1,4 @@
-package com.example.miboveda
+package com.example.miboveda.features.login.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,16 +11,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.miboveda.features.login.presentation.views.LoginScreen
 import com.example.miboveda.ui.theme.MiBovedaTheme
 
-class MainActivity : ComponentActivity() {
+class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MiBovedaTheme {
-                LoginScreen()
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Greeting(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
             }
         }
     }
