@@ -1,8 +1,10 @@
 import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
 }
+
 val localProperties = Properties().apply {
     val localFile = rootProject.layout.projectDirectory.file("local.properties")
     providers.fileContents(localFile).asText.orNull?.let { load(it.reader()) }
@@ -64,6 +66,7 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
