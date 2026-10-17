@@ -1,6 +1,16 @@
+import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+}
+val localProperties = Properties().apply {
+    val localFile = rootProject.layout.projectDirectory.file("local.properties")
+    providers.fileContents(localFile).asText.orNull?.let { load(it.reader()) }
+}
+val googleWebClientId: String = localProperties.getProperty("GOOGLE_WEB_CLIENT_ID", "")
+
+if (googleWebClientId.isBlank()) {
+    logger.warn("Falta GOOGLE_WEB_CLIENT_ID en local.properties: el login con Google no funcionará.")
 }
 
 android {
@@ -17,6 +27,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"$googleWebClientId\"")
     }
 
     buildTypes {
@@ -32,6 +43,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -48,6 +60,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)
