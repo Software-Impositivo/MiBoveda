@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +40,10 @@ import com.example.miboveda.features.login.presentation.components.Input
 import com.example.miboveda.ui.theme.mainBglight
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    isLoading: Boolean = false,
+    onGoogleSignInClick: () -> Unit = {},
+) {
     Column(
         Modifier.background(color = MaterialTheme.colorScheme.background)
             .fillMaxWidth()
@@ -177,16 +181,24 @@ fun LoginScreen() {
             modifier = Modifier.fillMaxWidth()
         ) {
             OutlinedButton(
-                onClick = {},
+                onClick = onGoogleSignInClick,
+                enabled = !isLoading,
                 modifier = Modifier.fillMaxWidth(),
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                 contentPadding = PaddingValues(12.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_google_logo),
-                    contentDescription = "Logo de Google",
-                    modifier = Modifier.size(30.dp)
-                )
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(30.dp),
+                        strokeWidth = 2.dp
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_google_logo),
+                        contentDescription = "Logo de Google",
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
                 Spacer(Modifier.width(10.dp))
                 Text(
                     text = "Google",
@@ -214,4 +226,3 @@ fun LoginScreen() {
         }
     }
 }
-

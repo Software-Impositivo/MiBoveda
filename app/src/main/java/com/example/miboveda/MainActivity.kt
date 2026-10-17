@@ -4,23 +4,30 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.miboveda.features.login.presentation.views.LoginScreen
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.miboveda.features.login.data.GoogleAuthRepository
+import com.example.miboveda.features.login.presentation.LoginRoute
+import com.example.miboveda.features.login.presentation.LoginViewModel
 import com.example.miboveda.ui.theme.MiBovedaTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val loginViewModelFactory = viewModelFactory {
+        initializer { LoginViewModel(GoogleAuthRepository(BuildConfig.GOOGLE_WEB_CLIENT_ID)) }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MiBovedaTheme {
-                LoginScreen()
+                LoginRoute(viewModel = viewModel<LoginViewModel>(factory = loginViewModelFactory))
             }
         }
     }

@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">MiBoveda</string>
     <string name="title_activity_login">LoginActivity</string>
+
+    <string name="login_error_not_configured">El inicio de sesión con Google no está configurado.</string>
+    <string name="login_error_no_google_account">No hay una cuenta de Google en este dispositivo. Agrega una en Ajustes e inténtalo de nuevo.</string>
+    <string name="login_error_interrupted">Se interrumpió el inicio de sesión. Revisa tu conexión e inténtalo de nuevo.</string>
+    <string name="login_error_unsupported">Este dispositivo no es compatible con el inicio de sesión con Google.</string>
+    <string name="login_error_unknown">No pudimos iniciar sesión. Inténtalo de nuevo.</string>
+
+    <string name="authenticated_title">Sesión iniciada</string>
+    <string name="authenticated_placeholder">Pantalla temporal. Aquí irá el Home de Mi Bóveda.</string>
 </resources>
