@@ -73,5 +73,10 @@ val MiBovedaTypography = Typography(
         fontFamily = InterFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = InterFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 11.sp
     )
 )
