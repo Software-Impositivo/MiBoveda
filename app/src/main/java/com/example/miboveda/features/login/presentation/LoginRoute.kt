@@ -1,12 +1,15 @@
 package com.example.miboveda.features.login.presentation
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Snackbar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -39,15 +42,18 @@ fun LoginRoute(viewModel: LoginViewModel) {
         }
     }
 
-    Box(Modifier.fillMaxSize()) {
+    Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         val user = uiState.user
-        if (user == null) {
-            LoginScreen(
+        when {
+            uiState.isRestoringSession -> Unit // solo fondo: evita el parpadeo del login
+            user == null -> LoginScreen(
                 isLoading = uiState.isLoading,
                 onGoogleSignInClick = { scope.launch { viewModel.signInWithGoogle(context) } },
             )
-        } else {
-            AuthenticatedScreen(user = user)
+            else -> AuthenticatedScreen(
+                user = user,
+                onSignOutClick = { scope.launch { viewModel.signOut(context) } },
+            )
         }
         SnackbarHost(
             hostState = snackbarHostState,
@@ -55,7 +61,13 @@ fun LoginRoute(viewModel: LoginViewModel) {
                 .align(Alignment.BottomCenter)
                 .navigationBarsPadding()
                 .padding(16.dp),
-        )
+        ) { data ->
+            Snackbar(
+                snackbarData = data,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+            )
+        }
     }
 }
 

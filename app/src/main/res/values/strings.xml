@@ -10,4 +10,5 @@
 
     <string name="authenticated_title">Sesión iniciada</string>
     <string name="authenticated_placeholder">Pantalla temporal. Aquí irá el Home de Mi Bóveda.</string>
+    <string name="authenticated_sign_out">Cerrar sesión</string>
 </resources>

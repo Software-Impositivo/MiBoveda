@@ -9,4 +9,7 @@ interface AuthRepository {
      * para mostrar su hoja de selección de cuenta.
      */
     suspend fun signInWithGoogle(activityContext: Context): SignInResult
+
+    /** Pide a Credential Manager que olvide la cuenta elegida. No lanza excepciones. */
+    suspend fun signOut(context: Context)
 }

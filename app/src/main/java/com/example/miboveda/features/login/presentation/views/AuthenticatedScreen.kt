@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,7 +27,11 @@ import com.example.miboveda.features.login.domain.model.AuthUser
 
 /** Pantalla temporal: se reemplaza por el Home cuando exista. */
 @Composable
-fun AuthenticatedScreen(user: AuthUser, modifier: Modifier = Modifier) {
+fun AuthenticatedScreen(
+    user: AuthUser,
+    onSignOutClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -64,5 +71,17 @@ fun AuthenticatedScreen(user: AuthUser, modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
         )
+        Spacer(Modifier.height(32.dp))
+        OutlinedButton(
+            onClick = onSignOutClick,
+            modifier = Modifier.fillMaxWidth(),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        ) {
+            Text(
+                text = stringResource(R.string.authenticated_sign_out),
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.labelMedium,
+            )
+        }
     }
 }
