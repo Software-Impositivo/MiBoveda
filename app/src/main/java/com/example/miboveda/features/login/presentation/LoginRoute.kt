@@ -1,5 +1,8 @@
 package com.example.miboveda.features.login.presentation
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -7,9 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Snackbar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,7 +37,20 @@ fun LoginRoute(viewModel: LoginViewModel) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val errorMessage = uiState.error?.let { stringResource(it.messageRes()) }
+    // Pantalla de consentimiento de Google para el permiso de Drive.
+    val driveConsentLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        viewModel.onDriveConsentResult(context, result.resultCode, result.data)
+    }
+
+    val signInError = uiState.error
+    val driveError = uiState.driveError
+    val errorMessage = when {
+        signInError != null -> stringResource(signInError.messageRes())
+        driveError != null -> stringResource(driveError.messageRes())
+        else -> null
+    }
     LaunchedEffect(errorMessage) {
         if (errorMessage != null) {
             snackbarHostState.showSnackbar(errorMessage)
@@ -52,6 +68,18 @@ fun LoginRoute(viewModel: LoginViewModel) {
             )
             else -> AuthenticatedScreen(
                 user = user,
+                driveStatus = uiState.driveStatus,
+                isDriveBusy = uiState.isDriveBusy,
+                onConnectDriveClick = {
+                    scope.launch {
+                        viewModel.connectDrive(context)?.let { consent ->
+                            driveConsentLauncher.launch(
+                                IntentSenderRequest.Builder(consent.intentSender).build()
+                            )
+                        }
+                    }
+                },
+                onDisconnectDriveClick = { scope.launch { viewModel.disconnectDrive(context) } },
                 onSignOutClick = { scope.launch { viewModel.signOut(context) } },
             )
         }
@@ -78,4 +106,11 @@ private fun SignInFailure.messageRes(): Int = when (this) {
     SignInFailure.INTERRUPTED -> R.string.login_error_interrupted
     SignInFailure.UNSUPPORTED -> R.string.login_error_unsupported
     SignInFailure.UNKNOWN -> R.string.login_error_unknown
+}
+
+@StringRes
+private fun DriveError.messageRes(): Int = when (this) {
+    DriveError.DENIED -> R.string.drive_error_denied
+    DriveError.UNAVAILABLE -> R.string.drive_error_unavailable
+    DriveError.UNKNOWN -> R.string.drive_error_unknown
 }

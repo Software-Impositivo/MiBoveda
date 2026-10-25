@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.miboveda.features.login.data.DataStoreSessionRepository
 import com.example.miboveda.features.login.data.GoogleAuthRepository
+import com.example.miboveda.features.login.data.GoogleDriveAuthorizationRepository
 import com.example.miboveda.features.login.presentation.LoginRoute
 import com.example.miboveda.features.login.presentation.LoginViewModel
 import com.example.miboveda.ui.theme.MiBovedaTheme
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
             LoginViewModel(
                 authRepository = GoogleAuthRepository(BuildConfig.GOOGLE_WEB_CLIENT_ID),
                 sessionRepository = DataStoreSessionRepository(applicationContext),
+                driveRepository = GoogleDriveAuthorizationRepository(),
             )
         }
     }

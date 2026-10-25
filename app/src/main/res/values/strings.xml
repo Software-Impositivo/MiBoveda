@@ -11,4 +11,13 @@
     <string name="authenticated_title">Sesión iniciada</string>
     <string name="authenticated_placeholder">Pantalla temporal. Aquí irá el Home de Mi Bóveda.</string>
     <string name="authenticated_sign_out">Cerrar sesión</string>
+    <string name="drive_status_unknown">Google Drive: sin verificar</string>
+    <string name="drive_status_connected">Google Drive: conectado</string>
+    <string name="drive_status_not_connected">Google Drive: no conectado</string>
+    <string name="drive_connect">Conectar Google Drive</string>
+    <string name="drive_disconnect">Desconectar Google Drive</string>
+    <string name="drive_error_denied">No concediste el permiso de Google Drive. Lo necesitamos para guardar tus facturas en tu propia cuenta.</string>
+    <string name="drive_error_unavailable">No hay conexión en este momento. Inténtalo de nuevo cuando vuelvas a tener internet.</string>
+    <string name="drive_error_unknown">No pudimos completar la operación con Google Drive. Inténtalo de nuevo.</string>
+
 </resources>
