@@ -16,6 +16,8 @@ import kotlinx.serialization.Serializable
 @Serializable object Reports
 @Serializable object Profile
 
+@Serializable data class ReceiptPreview(val path: String)
+
 data class TopLevelRoute<T : Any>(
     val name: Int,
     val route: T,

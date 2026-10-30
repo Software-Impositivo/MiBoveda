@@ -29,6 +29,7 @@ import com.example.miboveda.ui.theme.NavInactive
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.media.Image
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
@@ -48,11 +49,15 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -60,13 +65,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.miboveda.R
 import com.example.miboveda.features.home.presentation.states.SampleHomeState
 import com.example.miboveda.features.home.presentation.views.HomeScreen
+import com.example.miboveda.features.ocr.ReceiptPreviewScreen
 import com.example.miboveda.features.scan.presentation.views.ScanScreen
+import com.example.miboveda.features.scan.presentation.views.ScanPermission
+import com.example.miboveda.features.scan.presentation.views.ScanViewModel
 import com.example.miboveda.ui.theme.NavInactive
 import com.example.miboveda.ui.theme.cardTitle
 import com.example.miboveda.utils.Home
+import com.example.miboveda.utils.ReceiptPreview
 import com.example.miboveda.utils.Scan
 import com.example.miboveda.utils.topLevelRoutes
 import kotlinx.serialization.Serializable
@@ -77,9 +87,26 @@ fun MainScreen() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    val hideBarRoutes = listOf(Scan::class)
+    val hideBarRoutes = listOf(Scan::class, ReceiptPreview::class)
     val showBottomBar = hideBarRoutes.none { route ->
         currentDestination?.hasRoute(route) == true
+    }
+    val viewModel = remember { ScanViewModel() }
+    val context = LocalContext.current
+    val captureResult by viewModel.captureResult.collectAsStateWithLifecycle()
+
+    LaunchedEffect(captureResult) {
+        captureResult?.let { result ->
+            result.onSuccess { file ->
+                // Aquí va lo que quieras hacer con la foto, por ejemplo:
+                // onPhotoCaptured(file.absolutePath)
+                navController.navigate((ReceiptPreview((file.absolutePath))))
+            }
+            result.onFailure {
+                Toast.makeText(context, "No se pudo tomar la foto", Toast.LENGTH_SHORT).show()
+            }
+            viewModel.consumeCaptureResult()
+        }
     }
 
     Scaffold(
@@ -154,13 +181,23 @@ fun MainScreen() {
             )
         ) {
             composable<Home> { HomeScreen(state = SampleHomeState) }
-            composable<Scan> { ScanScreen(
-                onBack = { navController.popBackStack() },
-                onToggleFlash = {},
-                onCapture = {},
-                onOpenGallery = {},
-                onHelp = {},
+             composable<Scan> { ScanScreen(
+                 onBack = { navController.popBackStack() },
+                 onToggleFlash = {},
+                 onCapture = {viewModel.takePhoto(context.filesDir) },
+                 onOpenGallery = {},
+                 onHelp = {},
+                 viewModel = viewModel
             ) }
+            composable<ReceiptPreview> { entry ->
+                val args = entry.toRoute<ReceiptPreview>()
+                ReceiptPreviewScreen(
+                    imagePath = args.path,
+                    onBack = { navController.popBackStack() },
+                )
+            }
+
+            // composable<Scan> { ScanScreen2(viewModel) }
             // composable<Profile> { ProfileScreen() }
         }
     }
