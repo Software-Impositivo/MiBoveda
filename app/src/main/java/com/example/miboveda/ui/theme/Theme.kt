@@ -11,32 +11,17 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
-
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
-)
-
 private val MiBovedaLight = lightColorScheme(
     primary = titlesGreen,
     onPrimary = labelsGreen,
+    primaryContainer = titlesGreen,       // tarjeta oscura, barras de gastos
+    onPrimaryContainer = white,           // texto sobre la tarjeta oscura
+    secondary = incomeBar,                // barras de ingresos
+    tertiary = vaultAccent,               // "MI BÓVEDA"
     background = mainBglight,
+    surface = white,                      // barra inferior, botón de campana
+    surfaceContainer = bgField,           // tarjeta del gráfico
+    onSurfaceVariant = smallText,         // "Saldo neto", leyenda, meses
     secondaryContainer = bgField,
     onSecondaryContainer = hintField,
     outline = borderField,
@@ -57,7 +42,6 @@ fun MiBovedaTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
         else -> MiBovedaLight
     }
 

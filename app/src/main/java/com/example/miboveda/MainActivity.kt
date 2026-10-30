@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.miboveda.features.home.presentation.states.SampleHomeState
+import com.example.miboveda.features.home.presentation.views.HomeScreen
 import com.example.miboveda.features.login.presentation.views.LoginScreen
 import com.example.miboveda.ui.theme.MiBovedaTheme
 
@@ -20,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MiBovedaTheme {
-                LoginScreen()
+                MainScreen()
             }
         }
     }

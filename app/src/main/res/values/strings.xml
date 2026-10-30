@@ -1,4 +1,25 @@
 <resources>
     <string name="app_name">MiBoveda</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="scan_title">Digitaliza un recibo</string>
+    <string name="scan_subtitle">Extraemos comercio, fecha, impuestos y total con OCR.</string>
+    <string name="scan_action">Escanear recibo</string>
+    <string name="vault_label">MI BÓVEDA</string>
+    <string name="vault_greeting">Hola, %1$s</string>
+    <string name="vault_spent_title">Gastos digitalizados · %1$s</string>
+    <string name="vault_receipts_saved">%1$s recibos guardados</string>
+    <string name="vault_vat">IVA: %1$s</string>
+    <string name="cd_notifications">Notificaciones</string>
+    <string name="chart_title">Ingresos y gastos mensuales</string>
+    <string name="legend_income">Ingresos</string>
+    <string name="legend_expenses">Gastos</string>
+    <string name="net_balance_label">Saldo neto</string>
+    <string name="cd_chart">Gráfico de barras de ingresos y gastos por mes</string>
+    <string name="recent_title">Recibos recientes</string>
+    <string name="see_all">Ver todos</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_receipts">Recibos</string>
+    <string name="nav_scan">Escanear</string>
+    <string name="nav_reports">Reportes</string>
+    <string name="nav_profile">Perfil</string>
 </resources>

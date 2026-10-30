@@ -2,14 +2,6 @@ package com.example.miboveda.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
-
 // Colores de Mi Bóveda
 // Light
 val mainBglight: Color = Color(0xFFBDE6CB)
@@ -20,3 +12,10 @@ val borderField: Color = Color(0xFFA6D8BC)
 val hintField: Color = Color(0xFF5B7E6F)
 val white: Color = Color(0xFFFFFFFF)
 val borderContainers: Color = Color(0xFF1C2B23)
+val incomeBar: Color = Color(0xFF70B995)   // barras de "Ingresos"
+val vaultAccent: Color = Color(0xFF4ADE80) // "MI BÓVEDA"
+
+internal val NavInactive = Color(0xFF8A9A92)
+internal val bigScanButton = Color(0xFF16845B)
+internal val smallText = Color(0xFF66756E)
+internal val cardTitle = Color(0xFF13251D)
